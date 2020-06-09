@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">ReUse</string>
+    <string name="tab_text_1">Home</string>
+    <string name="tab_text_2">Account</string>
+    <string name="account_description">Here you need to put the contact information
+        about yourself (phone or email minimum)</string>
+    <string name="current_account_name">You have not logged in</string>
+    <string name="current_account_who_wants">Right now nobody picked this advert</string>
+    <string name="account_name_hint">Enter your account name</string>
+    <string name="account_address_hint">Enter your address (city minimum)</string>
+    <string name="account_phone_hint">Enter phone number</string>
+    <string name="account_email_hint">Enter email address</string>
+    <string name="account_password_hint">Enter password</string>
+    <string name="account_password2_hint">Confirm password</string>
+    <string name="account_login_button">Log in</string>
+    <string name="account_register_button">Register</string>
+    <string name="account_register_back_button">Go back</string>
+    <string name="account_edit_button">Edit account</string>
+    <string name="account_delete_button">Delete account</string>
+    <string name="account_logout_button">Log out</string>
+    <string name="advert_button_create">Create</string>
+    <string name="advert_button_cancel">Cancel</string>
+    <string name="advert_button_add_picture">Upload picture</string>
+    <string name="advert_button_take_picture">Take new photo</string>
+    <string name="advert_text_name">What do you want to give?</string>
+    <string name="advert_text_description">Description</string>
+    <string name="advert_button_take">Take!</string>
+    <string name="advert_button_discard">Discard</string>
+    <string name="advert_button_edit">Edit</string>
+    <string name="advert_button_delete">Delete</string>
+    <string name="current_account_advert">This is your advert</string>
+    <string name="taken_advert">You took this advert</string>
+</resources>
