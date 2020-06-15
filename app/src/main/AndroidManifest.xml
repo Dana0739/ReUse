@@ -12,13 +12,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CreateAdvert"></activity>
-        <activity android:name=".EditAdvert"></activity>
-        <activity android:name=".accountActions.EditActivity"></activity>
-        <activity android:name=".accountActions.LogInActivity"></activity>
-        <activity android:name=".accountActions.RegisterActivity"></activity>
+        <activity android:name=".activities.advert.CreateAdvert"></activity>
+        <activity android:name=".activities.advert.EditAdvert"></activity>
+        <activity android:name=".activities.accountActivities.EditActivity"></activity>
+        <activity android:name=".activities.accountActivities.LogInActivity"></activity>
+        <activity android:name=".activities.accountActivities.RegisterActivity"></activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>

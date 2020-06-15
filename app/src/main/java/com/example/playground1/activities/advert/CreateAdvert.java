@@ -1,12 +1,8 @@
-package com.example.playground1;
+package com.example.playground1.activities.advert;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -16,22 +12,24 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.playground1.R;
 import com.example.playground1.model.ItemModel;
+import com.example.playground1.model.UserModel;
 import com.example.playground1.utils.DBUtils;
 import com.example.playground1.utils.GenericFileProvider;
+import com.example.playground1.utils.PreferencesUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class EditAdvert extends AppCompatActivity implements OnClickListener {
-
-    public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
+public class CreateAdvert extends AppCompatActivity implements OnClickListener {
 
     File directory;
 
@@ -43,8 +41,6 @@ public class EditAdvert extends AppCompatActivity implements OnClickListener {
     Button loadPhoto;
     Button createAdvert;
     Button cancelAdvert;
-    int advertId;
-    ItemModel itemModel;
 
     private int REQUEST_TAKE_PHOTO = 1;
     private int REQUEST_CHOSE_PHOTO = 2;
@@ -53,88 +49,43 @@ public class EditAdvert extends AppCompatActivity implements OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         createDirectory();
-        advertId = getIntent().getIntExtra("EXTRA_ADVERT_ID", -1);
-        itemModel = DBUtils.getItem(this, advertId);
-        setContentView(R.layout.activity_edit_advert);
-        advertName = findViewById(R.id.editAdvertName);
-        advertDescription = findViewById(R.id.editAdvertDescription);
-        imageView = findViewById(R.id.editAdvertImageView);
-        takePhoto = findViewById(R.id.editTakePictureAdvertButton);
+        setContentView(R.layout.activity_create_advert);
+        advertName = findViewById(R.id.createAdvertName);
+        advertDescription = findViewById(R.id.createAdvertDescription);
+        imageView = findViewById(R.id.createAdvertImageView);
+        takePhoto = findViewById(R.id.takePictureAdvertButton);
         takePhoto.setOnClickListener(this);
-        loadPhoto = findViewById(R.id.editAddPictureAdvertButton);
+        loadPhoto = findViewById(R.id.addPictureAdvertButton);
         loadPhoto.setOnClickListener(this);
-        createAdvert = findViewById(R.id.editAdvertButton);
+        createAdvert = findViewById(R.id.createAdvertButton);
         createAdvert.setOnClickListener(this);
-        cancelAdvert = findViewById(R.id.cancelEditAdvertButton);
+        cancelAdvert = findViewById(R.id.cancelAdvertButton);
         cancelAdvert.setOnClickListener(this);
-        getAccess();
-    }
-
-    private void getAccess()  {
-        if (ActivityCompat.checkSelfPermission(this,
-                android.Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions((Activity) this,
-                    new String[] {Manifest.permission.READ_EXTERNAL_STORAGE},
-                    MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
-        } else {
-            setPreviousValues();
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (requestCode == MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                setPreviousValues();
-            }
-        } else {
-            super.onRequestPermissionsResult(requestCode, permissions,
-                    grantResults);
-        }
-    }
-
-    private void setPreviousValues() {
-        advertName.setText(itemModel.getName());
-        advertDescription.setText(itemModel.getDescription());
-        imageView.setImageBitmap(getPictureFromUri(itemModel.getPictureUri()));
-        imageUri = Uri.parse(itemModel.getPictureUri());
-    }
-
-    private Bitmap getPictureFromUri(String uri) {
-        try {
-            return MediaStore.Images.Media.getBitmap(this.getContentResolver(), Uri.parse(uri));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.editAddPictureAdvertButton:
+            case R.id.addPictureAdvertButton:
                 dispatchChoosePictureIntent();
                 break;
-            case R.id.editTakePictureAdvertButton:
+            case R.id.takePictureAdvertButton:
                 try {
                     dispatchTakePictureIntent();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 break;
-            case R.id.editAdvertButton:
-                itemModel = prepareModelForDB();
-                if (DBUtils.editItem(this, itemModel)) {
+            case R.id.createAdvertButton:
+                ItemModel itemModel = prepareModelForDB();
+                if (DBUtils.addItem(this, itemModel)) {
                     Toast.makeText(this, "Your advert was successfully saved!", Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(this, "Something went wrong! Changes in your advert was not saved!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "Something went wrong! Your advert was not saved!", Toast.LENGTH_LONG).show();
                 }
                 this.finish();
                 break;
-            case R.id.cancelEditAdvertButton:
+            case R.id.cancelAdvertButton:
                 this.finish();
                 break;
             default:
@@ -202,8 +153,13 @@ public class EditAdvert extends AppCompatActivity implements OnClickListener {
     }
 
     ItemModel prepareModelForDB() {
-        return itemModel.setName(advertName.getText().toString())
-                .setDescription(advertDescription.getText().toString())
+        EditText name = findViewById(R.id.createAdvertName);
+        EditText description = findViewById(R.id.createAdvertDescription);
+        int ownerId = Integer.parseInt(PreferencesUtils.loadId(this));
+        UserModel owner = new UserModel().setId(ownerId);
+        return new ItemModel().setName(name.getText().toString())
+                .setDescription(description.getText().toString())
+                .setOwner(owner)
                 .setPictureUri(imageUri.toString());
     }
 }

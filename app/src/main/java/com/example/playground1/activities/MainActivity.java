@@ -1,14 +1,18 @@
-package com.example.playground1;
+package com.example.playground1.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.playground1.R;
+import com.example.playground1.activities.advert.CreateAdvert;
 import com.example.playground1.utils.PreferencesUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
 import androidx.viewpager.widget.ViewPager;
+
+import android.util.Log;
 import android.view.View.OnClickListener;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -29,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         tabs.setupWithViewPager(viewPager);
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(this);
+        Log.i("ReUse", "ReUse application has started");
     }
 
     @Override

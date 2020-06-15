@@ -1,4 +1,4 @@
-package com.example.playground1.accountActions;
+package com.example.playground1.activities.accountActivities;
 
 import android.os.Bundle;
 import android.view.View;

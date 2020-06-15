@@ -1,4 +1,4 @@
-package com.example.playground1.accountActions;
+package com.example.playground1.activities.accountActivities;
 
 import android.os.Bundle;
 import android.view.View;
@@ -50,7 +50,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.editButton:
                 if (checkFields()) {
                     if (checkPasswords()) {
-                        if (checkName()) {
+                        if (!checkNameExists()) {
                             UserModel user = new UserModel()
                                     .setId(Integer.parseInt(PreferencesUtils.loadId(this)))
                                     .setName(name.getText().toString())
@@ -111,8 +111,8 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         return password.getText().toString().equals(password2.getText().toString());
     }
 
-    private boolean checkName() {
-        return DBUtils.checkUserNameExists(this, name.getText().toString());
+    private boolean checkNameExists() {
+        return DBUtils.checkUserNameExistsAndNotCurrent(this, name.getText().toString(), Integer.parseInt(PreferencesUtils.loadId(this)));
     }
 
     private void initialize() {

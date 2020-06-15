@@ -12,9 +12,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.playground1.R;
-import com.example.playground1.accountActions.EditActivity;
-import com.example.playground1.accountActions.LogInActivity;
-import com.example.playground1.accountActions.RegisterActivity;
+import com.example.playground1.activities.accountActivities.EditActivity;
+import com.example.playground1.activities.accountActivities.LogInActivity;
+import com.example.playground1.activities.accountActivities.RegisterActivity;
 import com.example.playground1.utils.DBUtils;
 import com.example.playground1.utils.PreferencesUtils;
 

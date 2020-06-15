@@ -5,7 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.example.playground1.DBHelper;
+import com.example.playground1.model.DBHelper;
 import com.example.playground1.model.ItemModel;
 import com.example.playground1.model.UserModel;
 
@@ -136,6 +136,20 @@ public class DBUtils {
         String[] columns = new String[] {"name"};
         String selection = "name = ?";
         String[] selectionArgs = new String[] {name};
+        DBHelper dbHelper = new DBHelper(context);
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor c = db.query("user", columns, selection, selectionArgs, null, null, null);
+        boolean result = c.moveToFirst();
+        c.close();
+        db.close();
+        dbHelper.close();
+        return result;
+    }
+
+    public static boolean checkUserNameExistsAndNotCurrent(Context context, String name, int id) {
+        String[] columns = new String[] {"name"};
+        String selection = "name = ? and id != ?";
+        String[] selectionArgs = new String[] {name, String.valueOf(id)};
         DBHelper dbHelper = new DBHelper(context);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor c = db.query("user", columns, selection, selectionArgs, null, null, null);

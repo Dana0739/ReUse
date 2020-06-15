@@ -1,4 +1,4 @@
-package com.example.playground1;
+package com.example.playground1.model;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

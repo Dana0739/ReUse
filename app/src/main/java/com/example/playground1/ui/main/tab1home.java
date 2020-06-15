@@ -8,7 +8,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 
-import com.example.playground1.EditAdvert;
+import com.example.playground1.activities.advert.EditAdvert;
 import com.example.playground1.model.ItemModel;
 import com.example.playground1.R;
 import com.example.playground1.utils.DBUtils;
